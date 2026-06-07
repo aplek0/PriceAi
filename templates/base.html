@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}PriceAI{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <a class="brand" href="{{ url_for('index') }}">PriceAI</a>
+        <nav>
+          <a href="{{ url_for('index') }}">Search</a>
+          <a href="{{ url_for('watch') }}">Watch</a>
+          <a href="{{ url_for('check_watch') }}">Check Watch</a>
+          <a href="{{ url_for('alerts') }}">Alerts</a>
+          <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        </nav>
+      </header>
+
+      <section class="status-strip">
+        <span class="{{ 'ok' if setup_status.mongo_connected else 'bad' }}">MongoDB {{ 'Connected' if setup_status.mongo_connected else 'Missing' }}</span>
+        <span class="{{ 'ok' if setup_status.gemini_connected else 'bad' }}">Gemini {{ 'Connected' if setup_status.gemini_connected else 'Missing' }}</span>
+        <span class="{{ 'ok' if setup_status.serpapi_connected else 'bad' }}">SerpApi {{ 'Connected' if setup_status.serpapi_connected else 'Missing' }}</span>
+      </section>
+
+      <main>
+        {% block content %}{% endblock %}
+      </main>
+    </div>
+  </body>
+</html>

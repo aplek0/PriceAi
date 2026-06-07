@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}PriceAI Setup Required{% endblock %}
+{% block content %}
+<section class="card warning-card">
+  <p class="eyebrow">Setup required</p>
+  <h1>PriceAI cannot continue yet.</h1>
+  <p>MongoDB, Gemini, and SerpApi are required before normal app flow is available.</p>
+  {% if status.missing_required %}
+    <p class="error">Missing: {{ status.missing_required | join(", ") }}</p>
+  {% endif %}
+  {% if status.mongo_error %}
+    <p class="error">MongoDB error: {{ status.mongo_error }}</p>
+  {% endif %}
+  <p>Edit the project `.env` file, then restart the Flask app.</p>
+  <pre class="env-example">MONGODB_URI=
+MONGODB_DB=price_ai
+GEMINI_API_KEY=
+GEMINI_MODEL=gemini-2.5-flash
+SERPAPI_KEY=</pre>
+</section>
+{% endblock %}

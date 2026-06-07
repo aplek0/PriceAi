@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}PriceAI Search{% endblock %}
+{% block content %}
+<section class="hero">
+  <div>
+    <p class="eyebrow">MongoDB + Gemini + SerpApi</p>
+    <h1>Find better real product deals.</h1>
+    <p>Search Google Shopping through SerpApi, rank offers by product match and deal quality, and let Gemini explain the best buy.</p>
+  </div>
+</section>
+
+<form class="card form-grid" method="post">
+  <label>Product
+    <input name="product" placeholder="iphone 15" required>
+  </label>
+  <label>Country
+    <input name="country" placeholder="ro" required>
+  </label>
+  <label>Budget optional
+    <input name="budget" placeholder="3000 RON">
+  </label>
+  <button type="submit">Search Prices</button>
+</form>
+
+{% if result %}
+  <section class="card">
+    <h2>Results for {{ result.product }} in {{ result.country }}</h2>
+    {% if result.error %}
+      <p class="error">{{ result.error }}</p>
+    {% else %}
+      <div class="recommendation">
+        <h3>Gemini Recommendation</h3>
+        <p>{{ result.recommendation }}</p>
+      </div>
+      <div class="offers">
+        {% for offer in result.offers %}
+          <article class="offer">
+            <div>
+              <h3>{{ loop.index }}. {{ offer.title }}</h3>
+              <p>{{ offer.seller }}{% if offer.rating %} · Rating {{ offer.rating }}{% endif %}</p>
+            </div>
+            <div class="price">{{ offer.price }}</div>
+            {% if offer.link %}
+              <a class="button ghost" href="{{ offer.link }}" target="_blank" rel="noreferrer">Open</a>
+            {% endif %}
+          </article>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </section>
+{% endif %}
+{% endblock %}

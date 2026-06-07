@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}PriceAI Alerts{% endblock %}
+{% block content %}
+<section class="card">
+  <h1>Alert History</h1>
+  {% if alerts %}
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Old</th>
+            <th>New</th>
+            <th>Drop</th>
+            <th>Seller</th>
+            <th>Date</th>
+            <th>Reason</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for alert in alerts %}
+            <tr>
+              <td>{{ alert.product }}</td>
+              <td>{{ alert.old_price }}</td>
+              <td>{{ alert.new_price }}</td>
+              <td>{{ alert.drop_amount }}</td>
+              <td>{{ alert.seller }}</td>
+              <td>{{ alert.created_at }}</td>
+              <td>{{ alert.reason }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p>No alerts yet.</p>
+  {% endif %}
+</section>
+{% endblock %}

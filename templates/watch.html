@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}PriceAI Watch{% endblock %}
+{% block content %}
+<section class="card">
+  <h1>Watch Product</h1>
+  <p>Save the current cheapest offer as a baseline and get alerts when the price drops.</p>
+</section>
+
+<form class="card form-grid" method="post" action="{{ url_for('watch') }}">
+  <label>Product
+    <input name="product" placeholder="iphone 15" required>
+  </label>
+  <label>Country
+    <input name="country" placeholder="ro" required>
+  </label>
+  <label>Target price optional
+    <input name="target_price" placeholder="3000">
+  </label>
+  <button type="submit">Add Watch</button>
+</form>
+
+<form class="card compact" method="post" action="{{ url_for('check_watch') }}">
+  <button type="submit">Check All Watched Products</button>
+</form>
+
+{% if result %}
+  <section class="card">
+    <h2>Watch Result</h2>
+    {% if result.error %}
+      <p class="error">{{ result.error }}</p>
+    {% elif result.offer %}
+      <p class="success">Saved watch {{ result.watch_id }}.</p>
+      <article class="offer">
+        <div>
+          <h3>{{ result.offer.title }}</h3>
+          <p>{{ result.offer.seller }}</p>
+        </div>
+        <div class="price">{{ result.offer.price }}</div>
+      </article>
+      {% if result.target_price %}
+        <p>Target price: {{ result.target_price }}</p>
+      {% endif %}
+    {% else %}
+      <p class="error">No offer found.</p>
+    {% endif %}
+  </section>
+{% endif %}
+
+{% if check_result %}
+  <section class="card">
+    <h2>Watch Check</h2>
+    <p>Watched: {{ check_result.watched }} · Checked: {{ check_result.checked }} · Alerts created: {{ check_result.alerts_created }}</p>
+    {% for error in check_result.errors %}
+      <p class="error">{{ error }}</p>
+    {% endfor %}
+  </section>
+{% endif %}
+{% endblock %}

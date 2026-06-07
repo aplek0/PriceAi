@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}PriceAI Dashboard{% endblock %}
+{% block content %}
+<section class="dashboard-grid">
+  <div class="metric"><span>Total searches</span><strong>{{ stats.total_searches }}</strong></div>
+  <div class="metric"><span>Watched products</span><strong>{{ stats.watched_products }}</strong></div>
+  <div class="metric"><span>Alerts count</span><strong>{{ stats.alerts_count }}</strong></div>
+</section>
+
+<section class="card">
+  <h2>Most Searched Products</h2>
+  {% if stats.most_searched %}
+    {% for item in stats.most_searched %}
+      <p>{{ item["_id"] }} · {{ item["count"] }} searches</p>
+    {% endfor %}
+  {% else %}
+    <p>No searches yet.</p>
+  {% endif %}
+</section>
+
+<section class="card">
+  <h2>Biggest Price Drop</h2>
+  {% if stats.biggest_drop %}
+    <p>{{ stats.biggest_drop.product }} dropped by {{ stats.biggest_drop.drop_amount }}.</p>
+    <p>{{ stats.biggest_drop.old_price }} → {{ stats.biggest_drop.new_price }} from {{ stats.biggest_drop.seller }}</p>
+  {% else %}
+    <p>No price drops recorded yet.</p>
+  {% endif %}
+</section>
+{% endblock %}
